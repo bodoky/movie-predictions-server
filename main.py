@@ -12,7 +12,7 @@ import json
 
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
-    
+from sklearn.metrics import mean_absolute_error
 
 class Rating(BaseModel):
     votes : float
@@ -75,7 +75,7 @@ async  def rating_IMDb(rating: Rating):
 
     data = [[float(rating.votes),float(rating.duration),float(rating.budget_code)]]
     result = model_p.predict(data).tolist()[0]
-    rf_acc = metrics.mean_absolute_error([rating.rating], [result])
+    rf_acc = mean_absolute_error([rating.rating], [result])
 
     return {"data":rating,"rating_IMDb": result, "absolute_mean_error" : float(str(rf_acc)),}
 
